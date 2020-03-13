@@ -17,7 +17,7 @@ public final class Channel<E> extends SynchronousQueue<E> {
     private final AtomicBoolean closed;
 
     private Channel() {
-        closed = new AtomicBoolean(false);
+        closed = new AtomicBoolean(Boolean.FALSE);
     }
 
     /**
@@ -56,6 +56,13 @@ public final class Channel<E> extends SynchronousQueue<E> {
         } catch (InterruptedException e) {
             return null;
         }
+    }
+
+    /**
+     * Closes current channel.
+     */
+    public void close() {
+        closed.set(Boolean.TRUE);
     }
 
     /**

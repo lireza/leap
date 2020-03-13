@@ -18,7 +18,7 @@ public final class BufferedChannel<E> extends ArrayBlockingQueue<E> {
 
     private BufferedChannel(int capacity) {
         super(capacity);
-        closed = new AtomicBoolean(false);
+        closed = new AtomicBoolean(Boolean.FALSE);
     }
 
     /**
@@ -57,6 +57,13 @@ public final class BufferedChannel<E> extends ArrayBlockingQueue<E> {
         } catch (InterruptedException e) {
             return null;
         }
+    }
+
+    /**
+     * Closes current channel.
+     */
+    public void close() {
+        closed.set(Boolean.TRUE);
     }
 
     /**
