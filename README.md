@@ -2,16 +2,16 @@
 A try to provide Go's concurrency mechanics in Java.
 
 ### About
-As you may know Go supports CSP style concurrency mechanisms built in to the language. If you are familiar
-with CSP you may be agree with its simplicity and productivity. This project is a try to implement
-Go mechanics in Java. However with some limitations!
+As you may know Go supports CSP style concurrency model built in to the language. If you are familiar
+with this model you may be agree with its simplicity and productivity. This project is a try to implement
+Go concurrency mechanics in Java. However with some limitations!
 
 In java we don't have any native Coroutine (Light-weight thread), even Kotlin provides coroutines using
 asynchronous callbacks with use of compiler tricks or some Scala libraries provide coroutines using
-library features.
+library features; So this is a try to mimic the mechanics!
 
-The main limitation is calling blocking code in a coroutine (I/O, Locking). Java supports managed blocking
-mechanism, maybe will use this mechanism to improve leap to somehow overcome this limitation!
+As i mentioned there are some limitations, one of important one is calling blocking code in a coroutine (I/O, Locking).
+However Java supports managed blocking mechanism, working on this to improve leap to somehow overcome this limitation!
 
 ### Examples
 On the example bellow a simple coroutine generates an UUID and another coroutine retrieves generated one:
@@ -39,7 +39,7 @@ Or here we are generating 1 million UUIDs in a single coroutine, but retrieving 
 ```java
 public class Main {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         var channel = make(String.class, 10000);
 
         go(ch -> {
@@ -71,7 +71,7 @@ Another example shows the creation of 100000 coroutines each generate UUID and t
 ```java
 public class Main {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         var latch = new CountDownLatch(100_000);
 
         for (int i = 1; i <= 100_000; i++) {
