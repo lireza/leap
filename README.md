@@ -2,16 +2,18 @@
 A try to provide Go's concurrency mechanics in Java.
 
 ### About
-As you may know Go supports CSP style concurrency model built in to the language. If you are familiar
-with this model you may be agree with its simplicity and productivity. This project is a try to implement
-Go concurrency mechanics in Java. However with some limitations!
+As you may know Go supports CSP style concurrency model built in to the language.
+If you are familiar with this model you may be agree with its simplicity and productivity.
+This project is a try to implement Go's concurrency mechanics in Java. However with some limitations!
 
 In java we don't have any native Coroutine (Light-weight thread), even Kotlin provides coroutines using
 asynchronous callbacks with use of compiler tricks or some Scala libraries provide coroutines using
-library features; So this is a try to mimic the mechanics!
+library features. The problem relates to preemptive multitasking nature of threads and to provide real
+cooperative multitasking we need low level mechanisms instead of some compiler or library tricks!
+So this is a try to mimic the mechanics!
 
-As i mentioned there are some limitations, one of important one is calling blocking code in a coroutine (I/O, Locking).
-However Java supports managed blocking mechanism, working on this to improve leap to somehow overcome this limitation!
+As i mentioned there are some limitations, the important one is calling blocking code in a coroutine.
+Java supports managed blocking mechanism, currently working on this to improve leap to somehow overcome this limitation!
 
 ### Examples
 On the example bellow a simple coroutine generates an UUID and another coroutine retrieves generated one:
