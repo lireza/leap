@@ -13,14 +13,9 @@ library features.
 The main limitation is calling blocking code in a coroutine (I/O, Locking). Java supports managed blocking
 mechanism, maybe will use this mechanism to improve leap to somehow overcome this limitation!
 
-### Example
+### Examples
 On the example bellow a simple coroutine generates an UUID and another coroutine retrieves generated one:
 ```java
-import java.util.UUID;
-
-import static ir.jibit.leap.Channel.make;
-import static ir.jibit.leap.Coroutine.go;
-
 public class Main {
 
     public static void main(String[] args) throws Exception {
@@ -40,15 +35,8 @@ public class Main {
 }
 ```
 
-Or here we are generating 1 million UUIDs in a single coroutine, but retrieving from a buffered channel:
+Or here we are generating 1 million UUIDs in a single coroutine, but retrieving from two different coroutines:
 ```java
-import java.util.UUID;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-
-import static ir.jibit.leap.Channel.make;
-import static ir.jibit.leap.Coroutine.go;
-
 public class Main {
 
     public static void main(String[] args) throws Exception {
@@ -73,6 +61,25 @@ public class Main {
                 }, outer);
             }
         }, channel);
+
+        latch.await(2, TimeUnit.SECONDS);
+    }
+}
+```
+
+Another example shows the creation of 100000 coroutines each generate UUID and then countdown the latch:
+```java
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        var latch = new CountDownLatch(100_000);
+
+        for (int i = 1; i <= 100_000; i++) {
+            go(l -> {
+                UUID.randomUUID();
+                l.countDown();
+            }, latch);
+        }
 
         latch.await(2, TimeUnit.SECONDS);
     }
