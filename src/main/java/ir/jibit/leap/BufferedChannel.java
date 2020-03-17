@@ -1,8 +1,9 @@
 package ir.jibit.leap;
 
-import java.util.Objects;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * A buffered channel implementation for use in CSP style concurrency model.
@@ -28,7 +29,7 @@ public final class BufferedChannel<E> extends ArrayBlockingQueue<E> {
      * @return {@code true} if sending was successful otherwise {@code false}
      */
     public boolean send(E element) {
-        Objects.requireNonNull(element);
+        requireNonNull(element);
 
         try {
             if (closed.get()) {
@@ -67,10 +68,11 @@ public final class BufferedChannel<E> extends ArrayBlockingQueue<E> {
     }
 
     /**
-     * Creates and returns a newly created ready to sue buffered channel.
+     * Creates and returns a newly created ready to use buffered channel.
      *
-     * @param eClass - class of element type
-     * @param <E>    - element type
+     * @param eClass   - class of element type
+     * @param capacity - capacity of channel
+     * @param <E>      - element type
      * @return newly created and ready to use buffered channel of type E
      */
     public static <E> BufferedChannel<E> make(Class<E> eClass, int capacity) {

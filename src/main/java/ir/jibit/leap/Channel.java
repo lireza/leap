@@ -1,8 +1,9 @@
 package ir.jibit.leap;
 
-import java.util.Objects;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * A channel implementation for use in CSP style concurrency model.
@@ -21,13 +22,13 @@ public final class Channel<E> extends SynchronousQueue<E> {
     }
 
     /**
-     * Tries to send an element to the channel; waiting if necessary for another thread to receive it.
+     * Tries to send an element to the channel; waiting if necessary for another coroutine to receive it.
      *
      * @param element - the element to send
      * @return {@code true} if sending was successful otherwise {@code false}
      */
     public boolean send(E element) {
-        Objects.requireNonNull(element);
+        requireNonNull(element);
 
         try {
             if (closed.get()) {
@@ -42,7 +43,7 @@ public final class Channel<E> extends SynchronousQueue<E> {
     }
 
     /**
-     * Tries to retrieve an element from the channel; waiting if necessary for another thread to send it.
+     * Tries to retrieve an element from the channel; waiting if necessary for another coroutine to send it.
      *
      * @return {@code null} if retrieving was not successful otherwise the element
      */
@@ -66,7 +67,7 @@ public final class Channel<E> extends SynchronousQueue<E> {
     }
 
     /**
-     * Creates and returns a newly created ready to sue channel.
+     * Creates and returns a newly created ready to use channel.
      *
      * @param eClass - class of element type
      * @param <E>    - element type
@@ -77,10 +78,11 @@ public final class Channel<E> extends SynchronousQueue<E> {
     }
 
     /**
-     * Creates and returns a newly created ready to sue buffered channel.
+     * Creates and returns a newly created ready to use buffered channel.
      *
-     * @param eClass - class of element type
-     * @param <E>    - element type
+     * @param eClass   - class of element type
+     * @param capacity - capacity of channel
+     * @param <E>      - element type
      * @return newly created and ready to use buffered channel of type E
      */
     public static <E> BufferedChannel<E> make(Class<E> eClass, int capacity) {

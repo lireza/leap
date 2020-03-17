@@ -1,9 +1,10 @@
 package ir.jibit.leap;
 
-import java.util.Objects;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinTask;
 import java.util.function.Consumer;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * A simple coroutine implementation. A coroutine is a lightweight thread-like processing unit.
@@ -55,7 +56,7 @@ public abstract class Coroutine<I> extends ForkJoinTask<Void> implements Consume
      * @throws NullPointerException - in case of null provided consumer
      */
     public static <I> void go(Consumer<I> consumer, I input) {
-        Objects.requireNonNull(consumer);
+        requireNonNull(consumer);
 
         ForkJoinPool.commonPool().execute(new Coroutine<>(input) {
             @Override
